@@ -23,7 +23,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(to=Category, on_delete=models.PROTECT, related_name='products')
-    manufactured_at = models.DateTimeField()
+    manufactured_at = models.DateTimeField(blank=True, default=0)
 
     class Meta:
         verbose_name = 'Продукт'
