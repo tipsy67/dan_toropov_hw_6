@@ -1,1 +1,5 @@
 Django
+ipython
+psycopg2-binary
+python-dotenv
+pillow
