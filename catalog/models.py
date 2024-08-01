@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 
 
@@ -25,10 +23,13 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(to=Category, on_delete=models.PROTECT, related_name='products')
+
     # manufactured_at = models.DateField(default=datetime.datetime(2024,4,21))
 
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+        ordering = ['name']
+
     def __str__(self):
         return f"{self.name}"
