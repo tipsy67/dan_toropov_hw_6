@@ -1,1 +1,138 @@
-[{"model": "catalog.category", "pk": 1, "fields": {"name": "Столы", "description": "Здесь толькол столы"}}, {"model": "catalog.category", "pk": 2, "fields": {"name": "Стулья", "description": "Здесь толькол стулья"}}, {"model": "catalog.category", "pk": 3, "fields": {"name": "Шкафы", "description": "Здесь только шкафы"}}, {"model": "catalog.category", "pk": 4, "fields": {"name": "Диваны", "description": "Здесь только диваны"}}, {"model": "catalog.product", "pk": 1, "fields": {"name": "Диван", "description": "Шикарный диван", "price": "320000.00", "image": "", "created_at": "2024-08-02T19:31:37.722Z", "update_at": "2024-08-02T19:41:23.256Z", "category": 4}}, {"model": "catalog.product", "pk": 2, "fields": {"name": "Стул лофт", "description": "Стул удобный", "price": "11000.00", "image": "", "created_at": "2024-08-02T19:32:27.682Z", "update_at": "2024-08-02T19:32:27.682Z", "category": 2}}, {"model": "catalog.product", "pk": 4, "fields": {"name": "Стул барокко", "description": "Стул под старину", "price": "23000.00", "image": "", "created_at": "2024-08-02T19:44:17.165Z", "update_at": "2024-08-02T19:44:17.165Z", "category": 2}}, {"model": "catalog.product", "pk": 5, "fields": {"name": "Стол лофт", "description": "Стол с железными ножками", "price": "33000.00", "image": "", "created_at": "2024-08-02T19:45:49.838Z", "update_at": "2024-08-02T19:45:49.838Z", "category": 1}}, {"model": "catalog.product", "pk": 6, "fields": {"name": "Стол керамик", "description": "Стол из керамогранита", "price": "42000.00", "image": "", "created_at": "2024-08-02T19:46:30.623Z", "update_at": "2024-08-02T19:46:30.624Z", "category": 1}}, {"model": "catalog.product", "pk": 7, "fields": {"name": "Шкаф купе", "description": "Шкаф вместительный", "price": "47000.00", "image": "", "created_at": "2024-08-02T19:47:15.255Z", "update_at": "2024-08-02T19:47:15.255Z", "category": 3}}, {"model": "catalog.product", "pk": 8, "fields": {"name": "Шкаф мини", "description": "Шкаф в прихожую", "price": "18000.00", "image": "", "created_at": "2024-08-02T19:47:40.180Z", "update_at": "2024-08-02T19:47:40.180Z", "category": 3}}, {"model": "catalog.product", "pk": 9, "fields": {"name": "Шкаф комод", "description": "Шкаф под старину", "price": "38000.00", "image": "", "created_at": "2024-08-02T19:48:03.127Z", "update_at": "2024-08-02T19:48:03.127Z", "category": 3}}]
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Столы",
+      "description": "Здесь толькол столы"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Стулья",
+      "description": "Здесь толькол стулья"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Шкафы",
+      "description": "Здесь только шкафы"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Диваны",
+      "description": "Здесь только диваны"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Диван",
+      "description": "Шикарный диван",
+      "price": "320000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:31:37.722Z",
+      "update_at": "2024-08-02T19:41:23.256Z",
+      "category": 4
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Стул лофт",
+      "description": "Стул удобный",
+      "price": "11000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:32:27.682Z",
+      "update_at": "2024-08-02T19:32:27.682Z",
+      "category": 2
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "Стул барокко",
+      "description": "Стул под старину",
+      "price": "23000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:44:17.165Z",
+      "update_at": "2024-08-02T19:44:17.165Z",
+      "category": 2
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Стол лофт",
+      "description": "Стол с железными ножками",
+      "price": "33000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:45:49.838Z",
+      "update_at": "2024-08-02T19:45:49.838Z",
+      "category": 1
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Стол керамик",
+      "description": "Стол из керамогранита",
+      "price": "42000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:46:30.623Z",
+      "update_at": "2024-08-02T19:46:30.624Z",
+      "category": 1
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "name": "Шкаф купе",
+      "description": "Шкаф вместительный",
+      "price": "47000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:47:15.255Z",
+      "update_at": "2024-08-02T19:47:15.255Z",
+      "category": 3
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "name": "Шкаф мини",
+      "description": "Шкаф в прихожую",
+      "price": "18000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:47:40.180Z",
+      "update_at": "2024-08-02T19:47:40.180Z",
+      "category": 3
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+      "name": "Шкаф комод",
+      "description": "Шкаф под старину",
+      "price": "38000.00",
+      "image": "",
+      "created_at": "2024-08-02T19:48:03.127Z",
+      "update_at": "2024-08-02T19:48:03.127Z",
+      "category": 3
+    }
+  }
+]
