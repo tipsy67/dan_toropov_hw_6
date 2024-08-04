@@ -33,3 +33,33 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class Contact(models.Model):
+    country = models.CharField(max_length=50)
+    inn = models.CharField(max_length=20)
+    address = models.CharField(max_length=255)
+    phone = models.CharField(max_length=30)
+    email = models.EmailField()
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f"{self.email}"
+
+    class Meta:
+        ordering = ['-updated_at']
+        verbose_name = 'Контакт'
+        verbose_name_plural = 'Контакты'
+
+class Feedback(models.Model):
+    name = models.CharField(max_length=30)
+    phone = models.CharField(max_length=20)
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}, {self.created_at}"
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
