@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
 <div class="container">
     <header>
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
@@ -9,26 +8,28 @@
             <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
         </div>
     </header>
-    {% endblock title %}
-    {% block content %}
-    <main class="row overflow-auto">
-        <div class="row">
-            <div class="card-group">
-                <div class="card rounded-3 shadow-sm m-1 col">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">{{ object.name }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="card-title pricing-card-title">{{ object.price }}</h2>
-                        <p>
-                            {{ object.description }}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" class="w-100 btn btn-lg btn-success">Купить</button>
-                    </div>
+</div>
+{% endblock title %}
+
+{% block content %}
+<main class="row overflow-auto">
+    <div class="row">
+        <div class="card-group">
+            <div class="card rounded-3 shadow-sm m-1 col">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">{{ object.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title">{{ object.price }}</h2>
+                    <p>
+                        {{ object.description }}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="w-100 btn btn-lg btn-success">Купить</button>
                 </div>
             </div>
         </div>
-    </main>
-    {% endblock content %}
+    </div>
+</main>
+{% endblock content %}
