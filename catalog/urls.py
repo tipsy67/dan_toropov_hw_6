@@ -1,11 +1,12 @@
 from django.urls import path
-from catalog.views import index, contacts
+from catalog.views import index, contacts, product
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', index),
-    path('contacts/', contacts)
+    path('', index, name='home'),
+    path('contacts/', contacts, name='contacts'),
+    path('product/<int:pk_product>', product, name='product')
 ]
 
 if settings.DEBUG:
