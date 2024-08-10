@@ -218,38 +218,22 @@
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+            {% for item in menu %}
             <li class="nav-item">
-                <a href="/" class="nav-link active" aria-current="page">
+                <a href="{% url item.url_name %}"
+                   {% if item.url_name == item_selected %}
+                       class="nav-link active"
+                   {% else %}
+                       class="nav-link"
+                   {% endif %}
+                   aria-current="page">
                     <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#home"/>
                     </svg>
-                    Главная
+                    {{ item.title }}
                 </a>
             </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#speedometer2"/>
-                    </svg>
-                    Категории
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#table"/>
-                    </svg>
-                    Заказы
-                </a>
-            </li>
-            <li>
-                <a href="/contacts/" class="nav-link text-white">
-                    <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#people-circle"/>
-                    </svg>
-                    Контакты
-                </a>
-            </li>
+            {% endfor %}
         </ul>
         <hr>
         <div class="dropdown">

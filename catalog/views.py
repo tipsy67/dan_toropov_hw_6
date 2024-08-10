@@ -10,11 +10,19 @@ from catalog.models import Product, Contact, Feedback
 
 PATH_TO_CSV = Path(__file__).parent.joinpath('data', 'feedback.csv')
 
+menu = [{'title': "Главная", 'url_name': 'home', 'visibility': True},
+        {'title': "Категории", 'url_name': 'categories', 'visibility': True},
+        {'title': "Заказы", 'url_name': 'orders', 'visibility': True},
+        {'title': "Контакты", 'url_name': 'contacts', 'visibility': True}
+        ]
+
 
 # Create your views here.
 def index(request):
     context = {
-        'objects_list': Product.objects.all().order_by('-created_at')
+        'objects_list': Product.objects.all().order_by('-created_at'),
+        'menu': menu,
+        'item_selected': 'home',
     }
     return render(request, 'catalog/index.html', context=context)
 
@@ -29,7 +37,13 @@ def contacts(request):
     data = Contact.objects.all()[:1]
     if data:
         data = data[0]
-    return render(request, 'catalog/contacts.html', context={'data': data})
+    context = {
+        'objects_list': Product.objects.all().order_by('-created_at'),
+        'menu': menu,
+        'item_selected': 'contacts',
+        'data': data,
+    }
+    return render(request, 'catalog/contacts.html', context=context)
 
 
 def product(request, pk_product):
@@ -38,3 +52,11 @@ def product(request, pk_product):
         return render(request, 'catalog/product.html', context=context)
     except Product.DoesNotExist:
         return HttpResponseNotFound("<h2>Product not found</h2>")
+
+
+def orders(request):
+    return index(request)
+
+
+def categories(request):
+    return index(request)
