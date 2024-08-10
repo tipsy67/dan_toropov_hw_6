@@ -11,9 +11,9 @@ from catalog.models import Product, Contact, Feedback
 PATH_TO_CSV = Path(__file__).parent.joinpath('data', 'feedback.csv')
 
 menu = [{'title': "Главная", 'url_name': 'home', 'svg_name': 'home', 'visibility': True},
-        {'title': "Категории", 'url_name': 'categories', 'svg_name': 'speedometer', 'visibility': True},
+        {'title': "Категории", 'url_name': 'categories', 'svg_name': 'speedometer2', 'visibility': True},
         {'title': "Заказы", 'url_name': 'orders', 'svg_name': 'table', 'visibility': True},
-        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'home', 'visibility': True}
+        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'people-circle', 'visibility': True}
         ]
 
 
@@ -48,7 +48,11 @@ def contacts(request):
 
 def product(request, pk_product):
     try:
-        context = {'object': Product.objects.get(pk=pk_product)}
+        context = {
+        'object': Product.objects.get(pk=pk_product),
+        'menu': menu,
+        'item_selected': '',
+        }
         return render(request, 'catalog/product.html', context=context)
     except Product.DoesNotExist:
         return HttpResponseNotFound("<h2>Product not found</h2>")
