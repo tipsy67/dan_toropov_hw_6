@@ -10,10 +10,10 @@ from catalog.models import Product, Contact, Feedback
 
 PATH_TO_CSV = Path(__file__).parent.joinpath('data', 'feedback.csv')
 
-menu = [{'title': "Главная", 'url_name': 'home', 'visibility': True},
-        {'title': "Категории", 'url_name': 'categories', 'visibility': True},
-        {'title': "Заказы", 'url_name': 'orders', 'visibility': True},
-        {'title': "Контакты", 'url_name': 'contacts', 'visibility': True}
+menu = [{'title': "Главная", 'url_name': 'home', 'svg_name': 'home', 'visibility': True},
+        {'title': "Категории", 'url_name': 'categories', 'svg_name': 'speedometer', 'visibility': True},
+        {'title': "Заказы", 'url_name': 'orders', 'svg_name': 'table', 'visibility': True},
+        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'home', 'visibility': True}
         ]
 
 
