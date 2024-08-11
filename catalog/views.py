@@ -1,19 +1,18 @@
-import csv
-import os.path
 from pathlib import Path
 
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from django.contrib import messages
 
 from catalog.models import Product, Contact, Feedback
+from forms import AddProduct
 
 PATH_TO_CSV = Path(__file__).parent.joinpath('data', 'feedback.csv')
 
 menu = [{'title': "Главная", 'url_name': 'home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'categories', 'svg_name': 'speedometer2', 'visibility': True},
         {'title': "Заказы", 'url_name': 'orders', 'svg_name': 'table', 'visibility': True},
-        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'people-circle', 'visibility': True}
+        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'people-circle', 'visibility': True},
+        {'title': "Редактор", 'url_name': 'editor', 'svg_name': 'grid', 'visibility': True},
         ]
 
 
@@ -49,9 +48,9 @@ def contacts(request):
 def product(request, pk_product):
     try:
         context = {
-        'object': Product.objects.get(pk=pk_product),
-        'menu': menu,
-        'item_selected': '',
+            'object': Product.objects.get(pk=pk_product),
+            'menu': menu,
+            'item_selected': '',
         }
         return render(request, 'catalog/product.html', context=context)
     except Product.DoesNotExist:
@@ -64,3 +63,24 @@ def orders(request):
 
 def categories(request):
     return index(request)
+
+def handle_uploaded_file(f):
+    with open(f"media/products/{f.name}", "wb+") as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+def editor(request):
+    if request.method == 'POST':
+        form = AddProduct(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(form.cleaned_data['image'])
+            product = Product(**form.cleaned_data)
+            product.save()
+    else:
+        form = AddProduct()
+
+    context = {
+        'form': form,
+        'menu': menu,
+        'item_selected': 'editor',
+    }
+    return render(request, 'catalog/editor.html', context=context)

@@ -1,13 +1,23 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from .models import Product, Category, Contact, Feedback
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'category')
+    fields = ('name', 'price', 'category', 'image', 'photo_product', 'description')
+    list_display = ('id', 'name', 'price', 'category', 'photo_product')
     list_filter = ('category',)
     search_fields = ('name', 'description')
+    list_display_links = ('name',)
+    readonly_fields = ('photo_product',)
+
+    @admin.display(description="Просмотр")
+    def photo_product(self, product: Product):
+        if product.image:
+            return mark_safe(f"<img src='{product.image.url}' width=50>")
+        return "Без изображения"
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

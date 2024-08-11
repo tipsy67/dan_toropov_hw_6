@@ -35,6 +35,7 @@
         .b-example-divider {
             flex-shrink: 0;
             width: 1.5rem;
+            height: 100vh;
             background-color: rgba(0, 0, 0, .1);
             border: solid rgba(0, 0, 0, .15);
             border-width: 1px 0;
@@ -123,3 +124,14 @@
             line-height: 1.25;
         }
 
+        .form-label {
+            display: inline-block;
+            min-width: 250px;
+            vertical-align: top;
+        }
+
+        .form-error ul {
+            list-style: none;
+            padding: 0;
+            color: #CC0000;
+        }

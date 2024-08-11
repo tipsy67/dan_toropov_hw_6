@@ -8,7 +8,7 @@
     </div>
 </header>
 {% endblock title %}
-
+{% load catalog_tags %}
 {% block content %}
 <main class="row justify-content-center overflow-auto">
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -20,13 +20,16 @@
             <div class="card-body">
                 <h2 class="card-title pricing-card-title">{{ object.price }}</h2>
                 <p>
+                    {% if object.image %}
+                    <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
+                    {% endif %}
                     {{ object.description }}
                 </p>
             </div>
             <div class="card-footer">
                 <a type="button" href="{% url 'product' object.pk %}"
-                   class="m-1 w-100 btn btn-lg btn-success">Подробнее</a>
-                <button type="button" class="m-1 w-100 btn btn-lg btn-success">Купить</button>
+                   class="m-1 w-100 btn btn-lg btn-secondary">Подробнее</a>
+                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Купить</button>
             </div>
         </div>
         {% endfor %}

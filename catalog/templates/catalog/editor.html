@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<div class="container">
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Добавление товаров</h1>
+            <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+        </div>
+    </header>
+</div>
+{% endblock title %}
+{% load catalog_tags %}
+{% block content %}
+<main class="row overflow-auto">
+    <div class="row">
+        <div class="card-group">
+            <div class="card rounded-3 shadow-sm m-1 col">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Введите информацию о товаре</h4>
+                </div>
+                <form method="post" action="" enctype="multipart/form-data">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="form-error">{{ form.non_field_errors }}</div>
+                        {% for f in form %}
+                        <p><label class="col-sm-2 col-form-label align-top" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+                        <div class="form-error">{{ f.errors }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

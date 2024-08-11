@@ -10,7 +10,7 @@
     </header>
 </div>
 {% endblock title %}
-
+{% load catalog_tags %}
 {% block content %}
 <main class="row overflow-auto">
     <div class="row">
@@ -21,12 +21,14 @@
                 </div>
                 <div class="card-body">
                     <h2 class="card-title pricing-card-title">{{ object.price }}</h2>
-                    <p>
+                    {% if object.image %}
+                    <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
+                    {% endif %}<p>
                         {{ object.description }}
                     </p>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="w-100 btn btn-lg btn-success">Купить</button>
+                    <button type="button" class="w-100 btn btn-lg btn-primary">Купить</button>
                 </div>
             </div>
         </div>
