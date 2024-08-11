@@ -1,0 +1,18 @@
+<ul class="nav nav-pills flex-column mb-auto">
+    {% for item in menu %}
+    <li class="nav-item">
+        <a href="{% url item.url_name %}"
+           {% if item.url_name == item_selected %}
+           class="nav-link active"
+           {% else %}
+           class="nav-link"
+           {% endif %}
+           aria-current="page">
+            <svg class="bi me-2" width="16" height="16">
+                <use xlink:href="#{{ item.svg_name }}"/>
+            </svg>
+            {{ item.title }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
