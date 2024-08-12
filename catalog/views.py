@@ -6,22 +6,20 @@ from django.shortcuts import render
 from catalog.models import Product, Contact, Feedback
 from forms import AddProduct
 
-PATH_TO_CSV = Path(__file__).parent.joinpath('data', 'feedback.csv')
-
-menu = [{'title': "Главная", 'url_name': 'home', 'svg_name': 'home', 'visibility': True},
-        {'title': "Категории", 'url_name': 'categories', 'svg_name': 'speedometer2', 'visibility': True},
-        {'title': "Заказы", 'url_name': 'orders', 'svg_name': 'table', 'visibility': True},
-        {'title': "Контакты", 'url_name': 'contacts', 'svg_name': 'people-circle', 'visibility': True},
-        {'title': "Редактор", 'url_name': 'editor', 'svg_name': 'grid', 'visibility': True},
+menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
+        {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
+        {'title': "Заказы", 'url_name': 'catalog:orders', 'svg_name': 'table', 'visibility': True},
+        {'title': "Контакты", 'url_name': 'catalog:contacts', 'svg_name': 'people-circle', 'visibility': True},
+        {'title': "Редактор", 'url_name': 'catalog:editor', 'svg_name': 'grid', 'visibility': True},
         ]
 
 
 # Create your views here.
-def index(request):
+def home(request):
     context = {
         'objects_list': Product.objects.all().order_by('-created_at'),
         'menu': menu,
-        'item_selected': 'home',
+        'item_selected': 'catalog:home',
     }
     return render(request, 'catalog/index.html', context=context)
 
@@ -39,7 +37,7 @@ def contacts(request):
     context = {
         'objects_list': Product.objects.all().order_by('-created_at'),
         'menu': menu,
-        'item_selected': 'contacts',
+        'item_selected': 'catalog:contacts',
         'data': data,
     }
     return render(request, 'catalog/contacts.html', context=context)
@@ -58,11 +56,11 @@ def product(request, pk_product):
 
 
 def orders(request):
-    return index(request)
+    return home(request)
 
 
 def categories(request):
-    return index(request)
+    return home(request)
 
 def handle_uploaded_file(f):
     with open(f"media/products/{f.name}", "wb+") as destination:
@@ -81,6 +79,6 @@ def editor(request):
     context = {
         'form': form,
         'menu': menu,
-        'item_selected': 'editor',
+        'item_selected': 'catalog:editor',
     }
     return render(request, 'catalog/editor.html', context=context)
