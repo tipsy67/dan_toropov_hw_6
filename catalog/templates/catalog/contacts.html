@@ -38,8 +38,8 @@
         main {
             display: flex;
             flex-wrap: nowrap;
-            height: 100vh;
-            height: -webkit-fill-available;
+<!--            height: 100vh;-->
+<!--            height: -webkit-fill-available;-->
             max-height: 100vh;
             overflow-x: auto;
             overflow-y: auto;
@@ -275,15 +275,23 @@
                     <table class="table table-striped">
                         <tr>
                             <td class="w-25">Страна</td>
-                            <td>USA</td>
+                            <td>{{data.country}}</td>
                         </tr>
                         <tr>
                             <td class="w-25">ИНН</td>
-                            <td>91-1144442</td>
+                            <td>{{data.inn}}</td>
                         </tr>
                         <tr>
                             <td class="w-25">Адрес</td>
-                            <td>Redmond,WA,98052-6399</td>
+                            <td>{{data.address}}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Телефон</td>
+                            <td>{{data.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">Эл.почта</td>
+                            <td>{{data.email}}</td>
                         </tr>
                     </table>
                 </div>
