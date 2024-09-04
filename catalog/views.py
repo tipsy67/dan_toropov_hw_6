@@ -3,7 +3,8 @@ from pathlib import Path
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.template.defaultfilters import first
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 
 from catalog.models import Product, Contact, Feedback
 from .forms import AddProduct
@@ -12,11 +13,11 @@ menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'hom
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
         {'title': "Заказы", 'url_name': 'catalog:orders', 'svg_name': 'table', 'visibility': True},
         {'title': "Контакты", 'url_name': 'catalog:contacts', 'svg_name': 'people-circle', 'visibility': True},
-        {'title': "Редактор", 'url_name': 'catalog:editor', 'svg_name': 'grid', 'visibility': True},
+        # {'title': "Редактор", 'url_name': 'catalog:editor', 'svg_name': 'grid', 'visibility': True},
+        {'title': "Статьи", 'url_name': 'blog:blog_list', 'svg_name': 'collection', 'visibility': True},
         ]
 
 
-# Create your views here.
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
@@ -57,6 +58,34 @@ class ProductDetailView(DetailView):
         'item_selected': '',
         }
 
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        'item_selected': 'catalog:editor',
+        'title_form': 'Добавить товар'
+    }
+    success_url =  reverse_lazy('catalog:home')
+
+class FeedbackCreateView(CreateView):
+    model = Feedback
+    fields = ['name', 'phone', 'message']
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        # 'item_selected': 'catalog:editor',
+        'title_form': 'Обратная связь'
+    }
+    success_url =  reverse_lazy('catalog:itsok')
+
+def itsok(request):
+    context = {
+        'menu': menu,
+    }
+    return render(request, 'catalog/itsok.html', context=context)
+
 
 def orders(request):
     pass
@@ -65,23 +94,3 @@ def orders(request):
 def categories(request):
     pass
 
-def handle_uploaded_file(f):
-    with open(f"media/products/{f.name}", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-def editor(request):
-    if request.method == 'POST':
-        form = AddProduct(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['image'])
-            product = Product(**form.cleaned_data)
-            product.save()
-    else:
-        form = AddProduct()
-
-    context = {
-        'form': form,
-        'menu': menu,
-        'item_selected': 'catalog:editor',
-    }
-    return render(request, 'catalog/editor.html', context=context)

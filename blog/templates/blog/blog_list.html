@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<header>
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal text-body-emphasis">Блоги</h1>
+        <p class="fs-5 text-body-secondary">Вы находитесь в разделе, предназначенном для размещения статей о товарах</p>
+    </div>
+</header>
+{% endblock title %}
+{% load catalog_tags %}
+{% block content %}
+<main class="row justify-content-center overflow-auto">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for object in object_list %}
+        <div class="card rounded-3 shadow-sm">
+            <div class="card-header w-100">
+                <h4 class="my-0 fw-normal">{{ object.title }}</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    {% if object.image %}
+                    <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
+                    {% endif %}
+                    {{ object.content }}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a type="button" href="{% url 'catalog:product' object.pk %}"
+                   class="m-1 w-100 btn btn-lg btn-secondary">Подробнее</a>
+                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Редактировать</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock content %}
+
+
+
