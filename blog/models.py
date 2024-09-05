@@ -1,4 +1,7 @@
 from django.db import models
+from django.template.defaultfilters import truncatechars
+from pytils.translit import slugify
+
 
 class Blog(models.Model):
     title = models.CharField(max_length=100, verbose_name='Заголовок')
@@ -17,3 +20,12 @@ class Blog(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    @property
+    def short_content(self):
+        return truncatechars(self.content, 100)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.slug = slugify(self.title)
+        super(Blog,self).save(*args, **kwargs)

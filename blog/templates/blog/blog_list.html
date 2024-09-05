@@ -22,13 +22,15 @@
                     {% if object.image %}
                     <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
                     {% endif %}
-                    {{ object.content }}
+                    {{ object.short_content }}
                 </p>
             </div>
             <div class="card-footer">
-                <a type="button" href="{% url 'catalog:product' object.pk %}"
+                <a type="button" href="{% url 'blog:blog_detail' object.slug  %}"
                    class="m-1 w-100 btn btn-lg btn-secondary">Подробнее</a>
-                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Редактировать</button>
+<!--                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Редактировать</button>-->
+                <a type="button" href="{% url 'blog:blog_update' object.slug %}"
+                   class="m-1 w-100 btn btn-lg btn-primary">Редактировать</a>
             </div>
         </div>
         {% endfor %}

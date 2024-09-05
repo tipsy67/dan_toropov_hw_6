@@ -1,13 +1,8 @@
-from pathlib import Path
-
-from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from django.template.defaultfilters import first
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from catalog.models import Product, Contact, Feedback
-from .forms import AddProduct
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -35,7 +30,7 @@ class ContactDetailView(DetailView):
     }
     context_object_name = 'data'
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         queryset = Contact.objects.order_by('-updated_at')
         obj = queryset.first()
         return obj
