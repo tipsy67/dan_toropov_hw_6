@@ -1,28 +1,39 @@
-from pathlib import Path
-
-from django.http import HttpResponseNotFound
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 
 from catalog.models import Product, Contact, Feedback
-from forms import AddProduct
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
         {'title': "Заказы", 'url_name': 'catalog:orders', 'svg_name': 'table', 'visibility': True},
         {'title': "Контакты", 'url_name': 'catalog:contacts', 'svg_name': 'people-circle', 'visibility': True},
-        {'title': "Редактор", 'url_name': 'catalog:editor', 'svg_name': 'grid', 'visibility': True},
+        # {'title': "Редактор", 'url_name': 'catalog:editor', 'svg_name': 'grid', 'visibility': True},
+        {'title': "Статьи", 'url_name': 'blog:blog_list', 'svg_name': 'collection', 'visibility': True},
         ]
 
 
-# Create your views here.
-def home(request):
-    context = {
-        'objects_list': Product.objects.all().order_by('-created_at'),
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
+    extra_context = {
         'menu': menu,
         'item_selected': 'catalog:home',
     }
-    return render(request, 'catalog/index.html', context=context)
+    ordering = ['-created_at']
 
+class ContactDetailView(DetailView):
+    template_name = 'catalog/contacts.html'
+    extra_context = {
+        'menu': menu,
+        'item_selected': 'catalog:contacts',
+    }
+    context_object_name = 'data'
+
+    def get_object(self, **kwargs):
+        queryset = Contact.objects.order_by('-updated_at')
+        obj = queryset.first()
+        return obj
 
 def contacts(request):
     if request.method == 'POST':
@@ -31,54 +42,50 @@ def contacts(request):
         message = request.POST.get('message')
         Feedback.objects.create(name=name, phone=phone, message=message)
         return render(request, 'catalog/itsok.html')
-    data = Contact.objects.all()[:1]
-    if data:
-        data = data[0]
-    context = {
-        'objects_list': Product.objects.all().order_by('-created_at'),
+    return render(request, 'catalog/contacts.html')
+
+
+class ProductDetailView(DetailView):
+    model=Product
+    template_name = 'catalog/product.html'
+    extra_context = {
         'menu': menu,
-        'item_selected': 'catalog:contacts',
-        'data': data,
-    }
-    return render(request, 'catalog/contacts.html', context=context)
-
-
-def product(request, pk_product):
-    try:
-        context = {
-            'object': Product.objects.get(pk=pk_product),
-            'menu': menu,
-            'item_selected': '',
+        'item_selected': '',
         }
-        return render(request, 'catalog/product.html', context=context)
-    except Product.DoesNotExist:
-        return HttpResponseNotFound("<h2>Product not found</h2>")
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        'item_selected': 'catalog:editor',
+        'title_form': 'Добавить товар'
+    }
+    success_url =  reverse_lazy('catalog:home')
+
+class FeedbackCreateView(CreateView):
+    model = Feedback
+    fields = ['name', 'phone', 'message']
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        # 'item_selected': 'catalog:editor',
+        'title_form': 'Обратная связь'
+    }
+    success_url =  reverse_lazy('catalog:itsok')
+
+def itsok(request):
+    context = {
+        'menu': menu,
+    }
+    return render(request, 'catalog/itsok.html', context=context)
 
 
 def orders(request):
-    return home(request)
+    pass
 
 
 def categories(request):
-    return home(request)
+    pass
 
-def handle_uploaded_file(f):
-    with open(f"media/products/{f.name}", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-def editor(request):
-    if request.method == 'POST':
-        form = AddProduct(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['image'])
-            product = Product(**form.cleaned_data)
-            product.save()
-    else:
-        form = AddProduct()
-
-    context = {
-        'form': form,
-        'menu': menu,
-        'item_selected': 'catalog:editor',
-    }
-    return render(request, 'catalog/editor.html', context=context)

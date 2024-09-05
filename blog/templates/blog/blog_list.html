@@ -3,8 +3,8 @@
 {% block title %}
 <header>
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal text-body-emphasis">Главная</h1>
-        <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+        <h1 class="display-4 fw-normal text-body-emphasis">Блоги</h1>
+        <p class="fs-5 text-body-secondary">Вы находитесь в разделе, предназначенном для размещения статей о товарах</p>
     </div>
 </header>
 {% endblock title %}
@@ -15,21 +15,22 @@
         {% for object in object_list %}
         <div class="card rounded-3 shadow-sm">
             <div class="card-header w-100">
-                <h4 class="my-0 fw-normal">{{ object.name }}</h4>
+                <h4 class="my-0 fw-normal">{{ object.title }}</h4>
             </div>
             <div class="card-body">
-                <h2 class="card-title pricing-card-title">{{ object.price }}</h2>
                 <p>
                     {% if object.image %}
                     <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
                     {% endif %}
-                    {{ object.description }}
+                    {{ object.short_content }}
                 </p>
             </div>
             <div class="card-footer">
-                <a type="button" href="{% url 'catalog:product' object.pk %}"
+                <a type="button" href="{% url 'blog:blog_detail' object.slug  %}"
                    class="m-1 w-100 btn btn-lg btn-secondary">Подробнее</a>
-                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Купить</button>
+<!--                <button type="button" class="m-1 w-100 btn btn-lg btn-primary">Редактировать</button>-->
+                <a type="button" href="{% url 'blog:blog_update' object.slug %}"
+                   class="m-1 w-100 btn btn-lg btn-primary">Редактировать</a>
             </div>
         </div>
         {% endfor %}
