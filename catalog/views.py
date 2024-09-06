@@ -37,15 +37,6 @@ class ContactDetailView(DetailView):
         obj = queryset.first()
         return obj
 
-def contacts(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        Feedback.objects.create(name=name, phone=phone, message=message)
-        return render(request, 'catalog/itsok.html')
-    return render(request, 'catalog/contacts.html')
-
 
 class ProductDetailView(DetailView):
     model=Product
