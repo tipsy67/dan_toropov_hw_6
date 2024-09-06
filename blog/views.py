@@ -55,6 +55,6 @@ class BlogDetailView(DetailView):
         self.object = super().get_object(queryset)
         self.object.views_counter += 1
         self.object.save()
-        if self.object.views_counter == 9:
+        if self.object.views_counter == 100:
             sendmail()
         return self.object

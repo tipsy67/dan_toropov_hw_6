@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from audioop import reverse
+
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -83,9 +85,9 @@ def itsok(request):
 
 
 def orders(request):
-    pass
+    return redirect('catalog:home')
 
 
 def categories(request):
-    pass
+    return redirect('catalog:home')
 
