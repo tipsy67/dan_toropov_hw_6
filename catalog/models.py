@@ -35,6 +35,10 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    @property
+    def get_version(self):
+        return self.versions.get(is_active=True)
+
 
 class Contact(models.Model):
     country = models.CharField(max_length=50, verbose_name='Страна')
@@ -67,3 +71,17 @@ class Feedback(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+
+
+class ProductVersion (models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions', verbose_name='продукт')
+    version_name = models.CharField(max_length=50, verbose_name='название версии')
+    version_number = models.CharField(max_length=50, verbose_name='номер версии')
+    is_active = models.BooleanField(default=False, verbose_name='текущая версия')
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
+
+    def __str__(self):
+        return f'{self.version_name}'
