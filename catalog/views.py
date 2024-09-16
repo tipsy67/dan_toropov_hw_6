@@ -1,10 +1,10 @@
-from audioop import reverse
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from catalog.models import Product, Contact, Feedback
+from catalog.models import Product, Contact, Feedback, Category, ProductVersion
+from catalog.forms import ProductForm, CategoryForm, ProductVersionForm
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -23,6 +23,11 @@ class ProductListView(ListView):
         'item_selected': 'catalog:home',
     }
     ordering = ['-created_at']
+
+    def get_context_data(self,  **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
 
 class ContactDetailView(DetailView):
     template_name = 'catalog/contacts.html'
@@ -48,7 +53,7 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = '__all__'
+    form_class = ProductForm
     template_name = 'catalog/editor.html'
     extra_context = {
         'menu': menu,
@@ -82,3 +87,22 @@ def orders(request):
 def categories(request):
     return redirect('catalog:home')
 
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        'title_form': 'Добавить категорию'
+    }
+    success_url =  reverse_lazy('catalog:home')
+
+class ProductVersionCreateView(CreateView):
+    model = ProductVersion
+    form_class = ProductVersionForm
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        'title_form': 'Добавить версию'
+    }
+    success_url =  reverse_lazy('catalog:home')

@@ -23,8 +23,13 @@
                     {% if object.image %}
                     <img class="card-img-left img-thumbnail" src="{{ object.image|add_media }}">
                     {% endif %}
-                    {{ object.description }}
+                    {{ object.description | slice:150 }}
                 </p>
+                <div class="text-secondary">
+                    {% if object.get_version %}
+                        Version: {{ object.get_version.version_number }}
+                    {% endif %}
+                </div>
             </div>
             <div class="card-footer">
                 <a type="button" href="{% url 'catalog:product' object.pk %}"

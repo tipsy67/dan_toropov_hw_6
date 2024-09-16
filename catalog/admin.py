@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Product, Category, Contact, Feedback
+
+from .models import Product, Category, Contact, Feedback, ProductVersion
 
 
 @admin.register(Product)
@@ -12,6 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     list_display_links = ('name',)
     readonly_fields = ('photo_product',)
+    ordering = ('name',)
 
     @admin.display(description="Просмотр")
     def photo_product(self, product: Product):
@@ -32,3 +34,7 @@ class ContactAdmin(admin.ModelAdmin):
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ['created_at', 'name', 'phone', 'message', 'is_read']
     list_filter = ['created_at', 'is_read']
+
+@admin.register(ProductVersion)
+class CProductVersionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'version_name', 'version_number', 'is_active')
