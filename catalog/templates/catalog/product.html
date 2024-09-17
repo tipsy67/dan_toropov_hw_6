@@ -28,7 +28,10 @@
                     </p>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="w-100 btn btn-lg btn-primary">Купить</button>
+                    <button type="button" class="m-2 w-100 btn btn-lg btn-primary">Купить</button>
+                    <a type="button" href="{% url 'catalog:product_update' object.pk %}"
+                       class="m-2 w-100 btn btn-lg btn-secondary">Редактировать</a>
+
                 </div>
             </div>
         </div>
