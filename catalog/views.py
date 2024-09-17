@@ -63,6 +63,30 @@ class ProductCreateView(CreateView):
     }
     success_url = reverse_lazy('catalog:home')
 
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/editor.html'
+    extra_context = {
+        'menu': menu,
+        'item_selected': 'catalog:home',
+        'title_form': 'Редактировать товар',
+        'footer_url': 'catalog:product_delete'
+    }
+    success_url = reverse_lazy('catalog:home')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/delete.html'
+    success_url = reverse_lazy('catalog:home')
+    extra_context = {
+        'menu': menu,
+        'item_selected': 'catalog:home',
+        'title': 'Удаление товара',
+        'title_card': 'товар',
+        'title_href': {'url': 'catalog:product_update'},
+    }
 
 class FeedbackCreateView(CreateView):
     model = Feedback
@@ -98,7 +122,7 @@ class VersionUpdateView(UpdateView):
     extra_context = {
         'menu': menu,
         'item_selected': 'catalog:versions',
-        'title_form': 'Добавить версию',
+        'title_form': 'Редактировать версию',
         'footer_url': 'catalog:version_delete'
     }
     success_url = reverse_lazy('catalog:versions')
