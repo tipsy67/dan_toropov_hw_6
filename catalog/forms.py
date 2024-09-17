@@ -1,6 +1,6 @@
 from django import forms
-
-
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 from catalog.models import ProductVersion, Product, Category
 
 
@@ -43,6 +43,16 @@ class ProductVersionForm(forms.ModelForm):
     class Meta:
         model = ProductVersion
         fields = '__all__'
+
+    def clean_is_active(self):
+        is_active = self.cleaned_data['is_active']
+        if is_active:
+            obj = self.cleaned_data['product']
+            flag = obj.versions.filter(Q(is_active=True) & ~Q(pk=self.instance.id)).exists()
+            if flag:
+                raise ValidationError('Уже есть активная версия для этого продукта')
+
+        return is_active
 
 
 class CategoryForm(forms.ModelForm):

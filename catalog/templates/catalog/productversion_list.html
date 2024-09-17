@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<div class="container">
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">О товаре</h1>
+            <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+        </div>
+    </header>
+</div>
+{% endblock title %}
+{% load catalog_tags %}
+{% block content %}
+<main class="row overflow-auto">
+    <div class="row">
+        <div class="card-group">
+            {% for object in object_list %}
+            <div class="card rounded-3 shadow-sm m-1 col">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">{{ object.version_name }}</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-title pricing-card-title">{{ object.product_name }}</p>
+                    <p>
+                        {{ object.version_number }}
+                    </p>
+                    <p>
+                        {% if object.is_active %}
+                        Текущая версия АКТИВНА
+                        {% else %}
+                        Неактивна
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a type="button" href="{% url 'catalog:version_update' object.pk %}"
+                       class="m-1 w-100 btn btn-lg btn-primary">Редактировать</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock content %}
