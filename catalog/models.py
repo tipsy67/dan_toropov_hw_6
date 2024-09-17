@@ -84,4 +84,8 @@ class ProductVersion (models.Model):
         verbose_name_plural = 'версии'
 
     def __str__(self):
-        return f'{self.version_name}'
+        return f'{self.version_name} для {self.product_name}'
+
+    @property
+    def product_name(self):
+        return self.product.name
