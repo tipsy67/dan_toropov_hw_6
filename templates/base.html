@@ -64,7 +64,17 @@
 
         {% block title %} {% endblock title %}
         {% block content %} {% endblock content %}
-
+        <div class="d-flex justify-content-center p-4">
+            {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+            <li class="mx-4 h4" style="display: inline;">{{ p }}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <li class="mx-4 h4" style="display: inline;">
+                <a href="?page={{ p }}">{{ p }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </div>
         <footer class="pt-4 my-md-5 pt-md-5 border-top">
             <div class="row">
                 <div class="col-12 col-md">

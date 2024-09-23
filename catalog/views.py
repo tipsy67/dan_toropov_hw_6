@@ -110,6 +110,7 @@ def itsok(request):
 
 class VersionListView(ListView):
     model = ProductVersion
+    paginate_by = 4
     extra_context = {
         'menu': menu,
         'item_selected': 'catalog:versions',
@@ -176,6 +177,7 @@ class ProductVersionCreateView(CreateView):
 
 class CategoryListView(ListView):
     model = Category
+    paginate_by = 4
     extra_context = {
         'menu': menu,
         'item_selected': 'catalog:categories',
