@@ -11,7 +11,7 @@
 {% load catalog_tags %}
 {% block content %}
 <main class="row justify-content-center overflow-auto">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3">
         {% for object in object_list %}
         <div class="card rounded-3 shadow-sm">
             <div class="card-header w-100">
@@ -27,7 +27,7 @@
                 </p>
                 <div class="text-secondary">
                     {% if object.get_version %}
-                        Version: {{ object.get_version.version_number }}
+                    Version: {{ object.get_version.version_number }}
                     {% endif %}
                 </div>
             </div>
@@ -38,6 +38,17 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center p-4">
+    {% for p in paginator.page_range %}
+    {% if page_obj.number == p %}
+    <li class="mx-4 h4" style="display: inline;">{{ p }}</li>
+    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+    <li class="mx-4 h4" style="display: inline;">
+        <a href="?page={{ p }}">{{ p }}</a>
+    </li>
+    {% endif %}
+    {% endfor %}
     </div>
 </main>
 {% endblock content %}

@@ -2,7 +2,7 @@ from django.urls import path
 from catalog.views import ProductCreateView, ContactDetailView, ProductListView, ProductDetailView, \
     itsok, FeedbackCreateView, CategoryCreateView, ProductVersionCreateView, CategoryUpdateView, VersionUpdateView, \
     VersionDeleteView, CategoryDeleteView, ProductUpdateView, ProductDeleteView
-from views import VersionListView, CategoryListView
+from catalog.views import VersionListView, CategoryListView
 
 app_name = 'catalog'
 

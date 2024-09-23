@@ -17,6 +17,7 @@ menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'hom
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
+    paginate_by = 3
     extra_context = {
         'menu': menu,
         'item_selected': 'catalog:home',

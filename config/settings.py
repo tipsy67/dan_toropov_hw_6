@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.conf.global_settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -44,7 +46,8 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'catalog',
-    'blog'
+    'blog',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +135,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = 'catalog:home'
+LOGOUT_REDIRECT_URL = 'catalog:home'
