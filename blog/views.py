@@ -56,5 +56,5 @@ class BlogDetailView(DetailView):
         self.object.views_counter += 1
         self.object.save()
         if self.object.views_counter == 100:
-            sendmail()
+            sendmail(['dtoropov@yandex.ru'], 'Домашнее задание','Ваш пост набрал 100 просмотров')
         return self.object

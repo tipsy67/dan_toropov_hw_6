@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User, NULLABLE
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
@@ -17,14 +19,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
-    description = models.TextField(blank=True, verbose_name='Описание')
+    description = models.TextField(**NULLABLE, verbose_name='Описание')
     price = models.DecimalField(max_digits=15, decimal_places=2, verbose_name='Цена')
-    image = models.ImageField(upload_to='products/', blank=True, verbose_name='Изображение')
+    image = models.ImageField(upload_to='products/', **NULLABLE, verbose_name='Изображение')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     update_at = models.DateTimeField(auto_now=True, verbose_name='Изменен')
     category = models.ForeignKey(to=Category, on_delete=models.PROTECT,
                                  related_name='products', verbose_name='Категория')
-
+    owner = models.ForeignKey(to=User, on_delete=models.SET_NULL, **NULLABLE,
+                                 related_name='products', verbose_name='Владелец')
     # manufactured_at = models.DateField(default=datetime.datetime(2024,4,21))
 
     class Meta:

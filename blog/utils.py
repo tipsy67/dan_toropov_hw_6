@@ -4,20 +4,20 @@ from email.header import Header
 from email.mime.text import MIMEText
 
 
-def sendmail():
+def sendmail(recipients_emails, title, message):
     smtp_server = "smtp.yandex.ru"
-    recipients_emails = "dtoropov@yandex.ru"
+
 
     login = os.environ.get('EMAIL_USER')
     password = os.environ.get('EMAIL_PASSWORD')
 
 
-    msg = MIMEText('Ваш пост набрал 100 просмотров', 'plain', 'utf-8')
-    msg['Subject'] = Header('Домашнее задание', 'utf-8')
+    msg = MIMEText(message, 'plain', 'utf-8')
+    msg['Subject'] = Header(title, 'utf-8')
     msg['From'] = login
     msg['To'] = recipients_emails
 
-    s = smtplib.SMTP(smtp_server, 587, timeout=10)
+    s = smtplib.SMTP_SSL(smtp_server, 587, timeout=10)
     s.set_debuglevel(1)
     try:
         s.starttls()
