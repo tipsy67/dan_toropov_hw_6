@@ -1,5 +1,5 @@
 import secrets
-
+from pyexpat.errors import messages
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect
@@ -13,6 +13,8 @@ from users.forms import ProfileUpdateForm, CreateUserForm
 from catalog.views import menu
 from users.models import User
 
+from django.contrib import messages
+
 
 class LoginView(BaseLoginView):
     template_name = 'users/user_form.html'
@@ -20,6 +22,15 @@ class LoginView(BaseLoginView):
         'menu': menu,
         'title_form': 'Вход на сайт'
     }
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        if 'recovery' in form.data:
+            messages.success(self.request, 'popdopdpdod')
+            return redirect(reverse('users:login'))
+        return super().form_invalid(form)
 
 class ProfileUpdateView(UpdateView):
     model =  get_user_model()
