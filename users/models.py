@@ -18,3 +18,10 @@ class User (AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    @staticmethod
+    def generate_password(length: int):
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for _ in range(length))
+
+        return password
+

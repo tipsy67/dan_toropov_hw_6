@@ -2,6 +2,7 @@ import secrets
 from pyexpat.errors import messages
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.views import LoginView as BaseLoginView
@@ -28,9 +29,22 @@ class LoginView(BaseLoginView):
 
     def form_invalid(self, form):
         if 'recovery' in form.data:
-            messages.success(self.request, 'popdopdpdod')
-            return redirect(reverse('users:login'))
+            email = form.data.get('username')
+            user = User.objects.filter(email=email).first()
+            if user is not None:
+                password = user.generate_password(8)
+                user.password = make_password(password)
+                user.save()
+                sendmail(
+                    [user.email],
+                    'Восстановление пароля',
+                    f'Ваш новый пароль {password}')
+                messages.success(self.request, 'На вашу по4ту отправлен пароль')
+                return redirect(reverse('users:login'))
+            else:
+                messages.warning(self.request, f'Пользователя {email} не существует')
         return super().form_invalid(form)
+
 
 class ProfileUpdateView(UpdateView):
     model =  get_user_model()
