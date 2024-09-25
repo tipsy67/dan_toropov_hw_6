@@ -1,9 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, CategoryForm, ProductVersionForm
 from catalog.models import Product, Contact, Feedback, Category, ProductVersion
+
+import random, string
+
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -53,7 +57,7 @@ class ProductDetailView(DetailView):
     }
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/editor.html'
@@ -64,7 +68,14 @@ class ProductCreateView(CreateView):
     }
     success_url = reverse_lazy('catalog:home')
 
-class ProductUpdateView(UpdateView):
+    def form_valid(self, form):
+        user = form.save()
+        user.owner = self.request.user
+        user.save()
+
+        return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/editor.html'
@@ -77,7 +88,7 @@ class ProductUpdateView(UpdateView):
     success_url = reverse_lazy('catalog:home')
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/delete.html'
     success_url = reverse_lazy('catalog:home')
@@ -117,7 +128,7 @@ class VersionListView(ListView):
     }
 
 
-class VersionUpdateView(UpdateView):
+class VersionUpdateView(LoginRequiredMixin, UpdateView):
     model = ProductVersion
     form_class = ProductVersionForm
     template_name = 'catalog/editor.html'
@@ -139,7 +150,7 @@ class VersionUpdateView(UpdateView):
     #     return super().form_valid(form)
 
 
-class VersionCreateView(CreateView):
+class VersionCreateView(LoginRequiredMixin, CreateView):
     model = ProductVersion
     form_class = ProductVersionForm
     template_name = 'catalog/editor.html'
@@ -151,7 +162,7 @@ class VersionCreateView(CreateView):
     success_url = reverse_lazy('catalog:home')
 
 
-class VersionDeleteView(DeleteView):
+class VersionDeleteView(LoginRequiredMixin, DeleteView):
     model = ProductVersion
     template_name = 'catalog/delete.html'
     success_url = reverse_lazy('catalog:versions')
@@ -164,7 +175,7 @@ class VersionDeleteView(DeleteView):
     }
 
 
-class ProductVersionCreateView(CreateView):
+class ProductVersionCreateView(LoginRequiredMixin, CreateView):
     model = ProductVersion
     form_class = ProductVersionForm
     template_name = 'catalog/editor.html'
@@ -184,7 +195,7 @@ class CategoryListView(ListView):
     }
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'catalog/editor.html'
@@ -198,7 +209,7 @@ class CategoryUpdateView(UpdateView):
     success_url = reverse_lazy('catalog:categories')
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'catalog/delete.html'
     success_url = reverse_lazy('catalog:versions')
@@ -211,7 +222,7 @@ class CategoryDeleteView(DeleteView):
     }
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'catalog/editor.html'
