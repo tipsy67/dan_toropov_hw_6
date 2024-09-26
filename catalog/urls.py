@@ -7,7 +7,7 @@ from catalog.views import VersionListView, CategoryListView
 app_name = 'catalog'
 
 urlpatterns = [
-    path('', ProductListView.as_view(), name='home'),
+    path('product/', ProductListView.as_view(), name='home'),
     path('contacts/', ContactDetailView.as_view(), name='contacts'),
     path('product/<int:pk>', ProductDetailView.as_view(), name='product'),
     path('product_update/<int:pk>', ProductUpdateView.as_view(), name='product_update'),

@@ -18,9 +18,9 @@ menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'hom
         ]
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
-    template_name = 'catalog/index.html'
+    template_name = 'catalog/product_list.html'
     paginate_by = 3
     extra_context = {
         'menu': menu,
@@ -48,7 +48,7 @@ class ContactDetailView(DetailView):
         return obj
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product.html'
     extra_context = {
@@ -119,7 +119,7 @@ def itsok(request):
     return render(request, 'catalog/itsok.html', context=context)
 
 
-class VersionListView(ListView):
+class VersionListView(LoginRequiredMixin, ListView):
     model = ProductVersion
     paginate_by = 4
     extra_context = {
@@ -186,7 +186,7 @@ class ProductVersionCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:home')
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     paginate_by = 4
     extra_context = {
