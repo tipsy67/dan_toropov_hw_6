@@ -1,3 +1,5 @@
+import random
+import string
 from enum import unique
 
 from django.contrib.auth.models import AbstractUser

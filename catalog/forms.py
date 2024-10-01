@@ -6,13 +6,14 @@ from catalog.models import ProductVersion, Product, Category
 
 stop_words = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
 
-class ProductForm(forms.ModelForm):
+class BaseProductForm(forms.ModelForm):
     # name = forms.CharField(max_length=100, label='Наименование')
     # description = forms.CharField(widget=forms.Textarea(), required=False, label='Описание')
     # price = forms.DecimalField(max_digits=15, decimal_places=2, label='Цена')
     # image = forms.ImageField(required=False, label='Изображение')
-    # category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория',
-    #                                   empty_label='Категория не выбрана', required=False)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория',
+                                       empty_label='Категория не выбрана', required=False)
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -37,6 +38,24 @@ class ProductForm(forms.ModelForm):
 
         return desc
 
+class ProductAdminForm(BaseProductForm):
+    pass
+
+class ProductOwnerForm(BaseProductForm):
+    is_published = forms.BooleanField(disabled=True, label='Активно')
+
+    # class Meta:
+    #     fields = None
+    #     exclude = ('is_published',)
+
+class ProductModeratorForm(BaseProductForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ProductModeratorForm, self).__init__(*args, **kwargs)
+        self.fields['name'].disabled = True
+        self.fields['price'].disabled = True
+        self.fields['image'].disabled = True
+        self.fields['owner'].disabled = True
 
 class ProductVersionForm(forms.ModelForm):
 

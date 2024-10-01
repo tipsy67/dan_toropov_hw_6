@@ -7,7 +7,7 @@ from .models import Product, Category, Contact, Feedback, ProductVersion
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'price', 'category', 'image', 'photo_product', 'description')
+    fields = ('name', 'price', 'category', 'image', 'photo_product', 'description', 'owner')
     list_display = ('id', 'name', 'price', 'category', 'photo_product')
     list_filter = ('category',)
     search_fields = ('name', 'description')
