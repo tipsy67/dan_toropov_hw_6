@@ -7,9 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from catalog.forms import ProductOwnerForm, CategoryForm, ProductVersionForm, ProductAdminForm
 from catalog.models import Product, Contact, Feedback, Category, ProductVersion
-
-import random, string
-
+from forms import ProductModeratorForm
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -31,7 +29,8 @@ class ProductListView(LoginRequiredMixin, ListView):
     ordering = ['-created_at']
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
             return Product.objects.all()
 
         return Product.objects.filter(Q(is_published=True)|Q(owner=self.request.user))
@@ -104,7 +103,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return ProductAdminForm
         elif user == self.object.owner:
             return ProductOwnerForm
-
+        elif user.is_moderator:
+            return ProductModeratorForm
         raise PermissionDenied
 
 
@@ -146,6 +146,13 @@ class VersionListView(LoginRequiredMixin, ListView):
         'menu': menu,
         'item_selected': 'catalog:versions',
     }
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
+            return ProductVersion.objects.all()
+
+        return ProductVersion.objects.filter(product__owner=self.request.user)
 
 
 class VersionUpdateView(LoginRequiredMixin, UpdateView):
@@ -214,6 +221,12 @@ class CategoryListView(LoginRequiredMixin, ListView):
         'item_selected': 'catalog:categories',
     }
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
+            return Product.objects.all()
+
+        raise PermissionDenied
 
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category

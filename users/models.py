@@ -27,3 +27,11 @@ class User (AbstractUser):
 
         return password
 
+    @property
+    def is_moderator(self):
+        if (self.has_perm('catalog.can_edit_description') and
+                self.has_perm('catalog.can_edit_category') and
+                self.has_perm('catalog.can_published')):
+            return True
+        return False
+
