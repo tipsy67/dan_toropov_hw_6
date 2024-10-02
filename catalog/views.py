@@ -5,9 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductOwnerForm, CategoryForm, ProductVersionForm, ProductAdminForm
+from catalog.forms import ProductOwnerForm, CategoryForm, ProductVersionForm, ProductAdminForm, ProductModeratorForm
 from catalog.models import Product, Contact, Feedback, Category, ProductVersion
-from forms import ProductModeratorForm
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},

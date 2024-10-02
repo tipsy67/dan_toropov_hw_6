@@ -29,9 +29,10 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="m-2 w-100 btn btn-lg btn-primary">Купить</button>
+                    {% if user.is_superuser or user.is_moderator or object.owner == user %}
                     <a type="button" href="{% url 'catalog:product_update' object.pk %}"
                        class="m-2 w-100 btn btn-lg btn-secondary">Редактировать</a>
-
+                    {% endif %}
                 </div>
             </div>
         </div>
