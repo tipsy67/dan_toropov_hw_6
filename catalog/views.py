@@ -1,13 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, CategoryForm, ProductVersionForm
+from catalog.forms import ProductOwnerForm, CategoryForm, ProductVersionForm, ProductAdminForm, ProductModeratorForm
 from catalog.models import Product, Contact, Feedback, Category, ProductVersion
-
-import random, string
-
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -27,6 +26,14 @@ class ProductListView(LoginRequiredMixin, ListView):
         'item_selected': 'catalog:home',
     }
     ordering = ['-created_at']
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
+            return Product.objects.all()
+
+        return Product.objects.filter(Q(is_published=True)|Q(owner=self.request.user))
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,9 +64,10 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     }
 
 
+
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    form_class = ProductForm
+    form_class = ProductOwnerForm
     template_name = 'catalog/editor.html'
     extra_context = {
         'menu': menu,
@@ -77,8 +85,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    form_class = ProductForm
     template_name = 'catalog/editor.html'
+    form_class = ProductAdminForm
     extra_context = {
         'menu': menu,
         'item_selected': 'catalog:home',
@@ -86,6 +94,17 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         'footer_url': 'catalog:product_delete'
     }
     success_url = reverse_lazy('catalog:home')
+
+    def get_form_class(self):
+
+        user = self.request.user
+        if user.is_superuser:
+            return ProductAdminForm
+        elif user == self.object.owner:
+            return ProductOwnerForm
+        elif user.is_moderator:
+            return ProductModeratorForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
@@ -126,6 +145,13 @@ class VersionListView(LoginRequiredMixin, ListView):
         'menu': menu,
         'item_selected': 'catalog:versions',
     }
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
+            return ProductVersion.objects.all()
+
+        return ProductVersion.objects.filter(product__owner=self.request.user)
 
 
 class VersionUpdateView(LoginRequiredMixin, UpdateView):
@@ -194,6 +220,12 @@ class CategoryListView(LoginRequiredMixin, ListView):
         'item_selected': 'catalog:categories',
     }
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_moderator:
+            return Product.objects.all()
+
+        raise PermissionDenied
 
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category

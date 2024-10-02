@@ -28,12 +28,18 @@ class Product(models.Model):
                                  related_name='products', verbose_name='Категория')
     owner = models.ForeignKey(to=User, on_delete=models.SET_NULL, **NULLABLE,
                                  related_name='products', verbose_name='Владелец')
+    is_published = models.BooleanField(default=False, verbose_name='Активно')
     # manufactured_at = models.DateField(default=datetime.datetime(2024,4,21))
 
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name']
+        permissions = [
+            ('can_edit_description', 'может редактировать описание'),
+            ('can_edit_category', 'может редактировать категорию'),
+            ('can_published', 'может публиковать продукт'),
+        ]
 
     def __str__(self):
         return f"{self.name}"

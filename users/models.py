@@ -1,3 +1,5 @@
+import random
+import string
 from enum import unique
 
 from django.contrib.auth.models import AbstractUser
@@ -24,4 +26,12 @@ class User (AbstractUser):
         password = ''.join(random.choice(characters) for _ in range(length))
 
         return password
+
+    @property
+    def is_moderator(self):
+        if (self.has_perm('catalog.can_edit_description') and
+                self.has_perm('catalog.can_edit_category') and
+                self.has_perm('catalog.can_published')):
+            return True
+        return False
 
