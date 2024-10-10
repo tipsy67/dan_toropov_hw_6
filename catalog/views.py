@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from catalog.forms import ProductOwnerForm, CategoryForm, ProductVersionForm, ProductAdminForm, ProductModeratorForm
 from catalog.models import Product, Contact, Feedback, Category, ProductVersion
+from utils import get_categories_from_cache
 
 menu = [{'title': "Главная", 'url_name': 'catalog:home', 'svg_name': 'home', 'visibility': True},
         {'title': "Категории", 'url_name': 'catalog:categories', 'svg_name': 'speedometer2', 'visibility': True},
@@ -223,7 +224,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser or user.is_moderator:
-            return Product.objects.all()
+            return get_categories_from_cache()
 
         raise PermissionDenied
 
